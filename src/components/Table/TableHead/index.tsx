@@ -7,5 +7,5 @@ export default function TableHead({
   children: ReactNode;
   className?: string;
 }) {
-  return <th className={className}>{children}</th>;
+  return <th className={`p-4  ${className}`}>{children}</th>;
 }
