@@ -1,3 +1,4 @@
+import capitalizeFirstLetter from "@/utils/helpers/capitalizeFirstLetter";
 import React from "react";
 type Props = {
   /** The label for the dropdown */
@@ -21,9 +22,6 @@ export default function Dropdown({
   capitalize = true,
   onChange,
 }: Props) {
-  const capitalizeFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
   return (
     <>
       <label

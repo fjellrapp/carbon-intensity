@@ -1,3 +1,4 @@
+import capitalizeFirstLetter from "@/utils/helpers/capitalizeFirstLetter";
 import useIsMobile from "@/utils/hooks/useIsMobile";
 import {
   PieChart,
@@ -35,7 +36,7 @@ export default function PieChartSimple({ data, dataKey }: Props) {
       return (
         <div className="p-12 bg-gray-100 rounded-md opacity-75 ">
           <div className="flex flex-col">
-            <strong>{payload[0].payload.fuel}</strong>
+            <strong>{capitalizeFirstLetter(payload[0].payload.fuel)}</strong>
             <p>{payload[0].payload.perc}%</p>
           </div>
         </div>
@@ -69,10 +70,12 @@ export default function PieChartSimple({ data, dataKey }: Props) {
             paddingAngle={2}
             startAngle={0}
             endAngle={-350}
-            lengthAdjust={2}
-            label={(props) => `${props.fuel} (${props.perc})`}
+            lengthAdjust={1}
+            label={(props) =>
+              `${capitalizeFirstLetter(props.fuel)} (${props.perc})`
+            }
           >
-            <Label value="Generation Mix" position="center" />
+            <Label value="Generation Mix" position="center" width={10} />
             {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
