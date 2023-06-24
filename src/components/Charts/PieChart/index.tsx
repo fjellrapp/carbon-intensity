@@ -1,5 +1,12 @@
 import useIsMobile from "@/utils/hooks/useIsMobile";
-import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  Label,
+} from "recharts";
 
 type Props = {
   /** The data for the pie chart. Must be an array of objects. Each object must have a key of dataKey */
@@ -16,6 +23,7 @@ type Props = {
 
 export default function PieChartSimple({ data, dataKey }: Props) {
   const isMobile = useIsMobile();
+
   const CustomTooltip = ({
     active,
     payload,
@@ -35,6 +43,7 @@ export default function PieChartSimple({ data, dataKey }: Props) {
     }
     return null;
   };
+
   const COLORS = [
     "#0088FE",
     "#00C49F",
@@ -44,23 +53,26 @@ export default function PieChartSimple({ data, dataKey }: Props) {
     "#00FF00",
     "#0000FF",
     "#FF00FF",
-    "#FFFF00",
+    "#F3c560",
     "#00FFFF",
   ];
   return (
-    <div className="w-full  h-[300px] md:h-[500px] flex items-center justify-center py-12">
+    <div className="w-full h-[350px] md:h-[550px] flex items-center justify-center py-12">
       <ResponsiveContainer>
         <PieChart>
           <Pie
             dataKey={dataKey}
             data={data}
-            alignmentBaseline="middle"
-            outerRadius={isMobile ? 60 : 170}
-            innerRadius={isMobile ? 50 : 120}
-            paddingAngle={8}
-            fill="#82ca9d"
+            aria-label="Generation Mix"
+            outerRadius={isMobile ? 60 : 180}
+            innerRadius={isMobile ? 50 : 160}
+            paddingAngle={2}
+            startAngle={0}
+            endAngle={-350}
+            lengthAdjust={2}
             label={(props) => `${props.fuel} (${props.perc})`}
           >
+            <Label value="Generation Mix" position="center" />
             {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
