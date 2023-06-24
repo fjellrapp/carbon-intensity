@@ -44,6 +44,8 @@ export default function PieChartSimple({ data, dataKey }: Props) {
     "#00FF00",
     "#0000FF",
     "#FF00FF",
+    "#FFFF00",
+    "#00FFFF",
   ];
   return (
     <div className="w-full  h-[300px] md:h-[500px] flex items-center justify-center py-12">
