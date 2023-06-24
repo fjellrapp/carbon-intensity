@@ -1,16 +1,22 @@
 type Props = {
+  /** The title of the dialog */
   title: string;
+  /** The children of the dialog */
   children: React.ReactNode;
+  /** The onClose handler for the dialog */
   onClose: () => void;
 };
+/**
+ *  Dialog component
+ */
 export default function Dialog({ title, children, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-      <div className="relative z-50 w-full max-w-2xl p-6 mx-auto bg-white rounded-md shadow-lg">
+      <div className="relative z-50 w-full max-w-4xl p-6 mx-auto bg-white rounded-md shadow-lg">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-medium text-gray-900">{title}</h2>
+          <h2 className="text-3xl font-medium text-gray-900">{title}</h2>
           <button
-            className="text-gray-400 hover:text-gray-500"
+            className="font-bold text-gray-400 hover:text-gray-500"
             onClick={onClose}
           >
             <svg

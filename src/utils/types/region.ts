@@ -1,6 +1,7 @@
 import { IntensityIndexEnum } from "../enum/intensityIndexEnum";
 
-export interface RegionalFromTo {
+// Used with https://api.carbonintensity.org.uk/regional/{county}
+export interface Regional {
   data: Array<Region>;
 }
 
@@ -13,14 +14,16 @@ export interface Region {
 export interface RegionData {
   from: string;
   generationmix: Array<Generationmix>;
-  intensity: {
-    forecast: number;
-    index: IntensityIndexEnum;
-  };
+  intensity: Intensity;
   to: string;
 }
 
 export interface Generationmix {
   fuel: string;
   perc: number;
+}
+
+export interface Intensity {
+  forecast: number;
+  index: IntensityIndexEnum;
 }

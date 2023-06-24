@@ -1,26 +1,31 @@
 "use client";
+import PieChartSimple from "@/components/Charts/PieChart";
 import Dialog from "@/components/Dialog";
 import Dropdown from "@/components/Select";
 import Table from "@/components/Table";
-import TableRow from "@/components/Table/TableRow";
 import { getRegionalByName } from "@/service/CarbonIntensity";
+import { readonlyRegions } from "@/utils/constants/regions";
 import { IntensityIndexEnum } from "@/utils/enum/intensityIndexEnum";
-import { Region, RegionalFromTo } from "@/utils/types/region";
+import { Region, Regional } from "@/utils/types/region";
 import { Fragment, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 
+/**
+ * The main module for displaying the table and the modal.
+ */
 export default function CarbonIntensity({
-  defaultData,
+  initialRegion,
 }: {
-  defaultData: RegionalFromTo;
+  initialRegion: Regional;
 }) {
-  const [currentRegion, setCurrentRegion] = useState(defaultData);
+  const [currentRegion, setCurrentRegion] = useState(initialRegion);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
 
-  const regions = ["england", "scotland", "wales"] as const;
+  // Generates a type from readonlyRegions
+  type RegionType = (typeof readonlyRegions)[number];
 
-  const handleChange = async (value: (typeof regions)[number]) => {
+  const handleChange = async (value: RegionType) => {
     setIsLoading(true);
     const currentRegionData = await getRegionalByName(value);
     setIsLoading(false);
@@ -28,7 +33,6 @@ export default function CarbonIntensity({
   };
 
   const handleRowSelect = (region: Region) => {
-    console.log(region);
     setSelectedRegion(region);
   };
 
@@ -53,15 +57,15 @@ export default function CarbonIntensity({
     if (!selectedRegion) {
       return null;
     }
-    const { dnoregion, shortname, data } = selectedRegion;
+    const { data } = selectedRegion;
 
     return (
       <div className="flex flex-col items-center gap-4">
-        <p className="text-xl font-bold">Current carbon intensity</p>
+        <p className="text-lg font-bold">Current carbon intensity</p>
 
         {data.map((regionData, index) => (
           <span
-            className={`text-lg font-bold ${getColorIntensity(
+            className={`text-2xl font-bold ${getColorIntensity(
               regionData.intensity.index
             )}`}
             key={`${regionData}-${index}`}
@@ -69,7 +73,28 @@ export default function CarbonIntensity({
             {regionData.intensity.forecast}
           </span>
         ))}
+        <small className="text-gray-500 ">
+          <sub>g</sub>CO<sub>2</sub>/kWh
+        </small>
       </div>
+    );
+  };
+
+  const CarbonIntensityGenerationmixChart = () => {
+    if (!selectedRegion) {
+      return null;
+    }
+    const { shortname, data } = selectedRegion;
+    return (
+      <>
+        {data.map((regionData, index) => (
+          <PieChartSimple
+            dataKey="perc"
+            data={regionData.generationmix}
+            key={`chart-${shortname}-${index}`}
+          />
+        ))}
+      </>
     );
   };
 
@@ -79,12 +104,9 @@ export default function CarbonIntensity({
         <div className="pr-6">
           <Dropdown
             label={"Select a country"}
-            options={regions}
-            placeholder="Choose a country"
+            options={readonlyRegions}
             onChange={async (event) => {
-              await handleChange(
-                event.target.value as (typeof regions)[number]
-              );
+              await handleChange(event.target.value as RegionType);
             }}
           />
         </div>
@@ -96,16 +118,15 @@ export default function CarbonIntensity({
           </div>
         ) : (
           <Table
-            onRowSelect={(event) => {}}
             tableRowHeadings={
               <>
                 {currentRegion.data.map((region) => (
                   <Fragment key={`${region.regionid}`}>
-                    <TableRow isTableHead>
+                    <Table.TableRow isTableHead>
                       <Table.TableHead>Dnoregion</Table.TableHead>
                       <Table.TableHead>Shortname</Table.TableHead>
                       <Table.TableHead>Intensity</Table.TableHead>
-                    </TableRow>
+                    </Table.TableRow>
                   </Fragment>
                 ))}
               </>
@@ -118,13 +139,13 @@ export default function CarbonIntensity({
                       <Fragment
                         key={`${regionData.intensity.forecast}-${index}`}
                       >
-                        <TableRow onClick={() => handleRowSelect(region)}>
+                        <Table.TableRow onClick={() => handleRowSelect(region)}>
                           <Table.TableData>{region.dnoregion}</Table.TableData>
                           <Table.TableData>{region.shortname}</Table.TableData>
                           <Table.TableData>
                             {regionData.intensity.forecast}
                           </Table.TableData>
-                        </TableRow>
+                        </Table.TableRow>
                       </Fragment>
                     ))}
                   </Fragment>
@@ -140,6 +161,7 @@ export default function CarbonIntensity({
           onClose={() => setSelectedRegion(null)}
         >
           <CarbonIntensityInfo />
+          <CarbonIntensityGenerationmixChart />
         </Dialog>
       )}
     </>

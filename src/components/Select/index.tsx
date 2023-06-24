@@ -1,16 +1,23 @@
 import React from "react";
 type Props = {
+  /** The label for the dropdown */
   label: string;
+  /** The options for the dropdown. Is readonly */
   options: readonly string[];
-  placeholder?: string;
+  /** Whether to capitalize the first letter of the label. Defaults to true. */
   capitalize?: boolean;
+  /** The onChange handler for the dropdown */
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
-/** Native select */
+
+/**
+ *  Dropdown component
+ *  This uses the browser native select element
+ */
+
 export default function Dropdown({
   options = [],
   label,
-  placeholder,
   capitalize = true,
   onChange,
 }: Props) {

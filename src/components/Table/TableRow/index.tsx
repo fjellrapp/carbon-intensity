@@ -1,19 +1,23 @@
-export default function TableRow({
-  children,
-  className,
-  isTableHead = false,
-  onClick,
-  ...props
-}: {
+type Props = {
+  /**  The table row children */
   children: React.ReactNode;
+  /** Whether the table row is a table head. Defaults to false. */
   isTableHead?: boolean;
+  /** The onClick handler for the table row */
   onClick?: (
     event:
       | React.MouseEvent<HTMLTableRowElement>
       | React.KeyboardEvent<HTMLTableRowElement>
   ) => void;
+  /** The className for the table row */
   className?: string;
-}) {
+};
+export default function TableRow({
+  children,
+  className,
+  isTableHead = false,
+  onClick,
+}: Props) {
   return (
     <tr
       className={`focus:outline-1 bg-gray-200 ${
@@ -26,7 +30,6 @@ export default function TableRow({
       onKeyDown={(event) => {
         event.key === "Enter" && onClick && onClick(event);
       }}
-      {...props}
     >
       {children}
     </tr>

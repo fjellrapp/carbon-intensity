@@ -6,8 +6,11 @@ import TableHead from "./TableHead";
 import TableRow from "./TableRow";
 
 type Props = {
+  /** The table row headings */
   tableRowHeadings: ReactNode;
+  /** The table row body */
   tableRowBody: ReactNode;
+  /** The onRowSelect handler */
   onRowSelect?: (event: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 export default function Table({ tableRowHeadings, tableRowBody }: Props) {
