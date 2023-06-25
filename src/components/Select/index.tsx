@@ -34,7 +34,6 @@ export default function Dropdown({
   onChange,
 }: Props) {
   const lowerCaseValue = selectedOption?.toLowerCase();
-  console.log("lowercase", lowerCaseValue, selectedOption);
   return (
     <>
       <label htmlFor={id} className="block mb-2 text-sm font-medium text-white">
