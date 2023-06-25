@@ -14,6 +14,8 @@ type Props = {
   data: any[];
   /** The key for the data. Must be a string */
   dataKey: string;
+  /** A test id for testing */
+  testid?: string;
 };
 
 /**
@@ -22,7 +24,7 @@ type Props = {
  * @returns JSX.Element
  */
 
-export default function PieChartSimple({ data, dataKey }: Props) {
+export default function PieChartSimple({ data, dataKey, testid }: Props) {
   const isMobile = useIsMobile();
 
   const CustomTooltip = ({
@@ -58,7 +60,10 @@ export default function PieChartSimple({ data, dataKey }: Props) {
     "#00FFFF",
   ];
   return (
-    <div className="w-full h-[350px] md:h-[550px] flex items-center justify-center py-12">
+    <div
+      className="w-full h-[350px] md:h-[550px] flex items-center justify-center py-12"
+      data-testid={testid}
+    >
       <ResponsiveContainer>
         <PieChart>
           <Pie

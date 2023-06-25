@@ -11,15 +11,19 @@ type Props = {
   ) => void;
   /** The className for the table row */
   className?: string;
+  /** A test id for testing */
+  testid?: string;
 };
 export default function TableRow({
   children,
   className,
   isTableHead = false,
   onClick,
+  testid,
 }: Props) {
   return (
     <tr
+      data-testid={testid}
       className={`focus:outline-1 bg-gray-200 ${
         isTableHead ? "bg-gray-100" : "bg-gray-50"
       } focus-within:outline-black focus-within:bg-gray-100 ${
